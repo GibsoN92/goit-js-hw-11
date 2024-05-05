@@ -1,11 +1,16 @@
+import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import axios from 'axios';
+
 const apiKey = '43727576-846afc7acd33227ff00bb0186';
 const baseURL = 'https://pixabay.com/api/';
 
 const form = document.getElementById('search-form');
 const gallery = document.getElementById('gallery');
-const loadMoreBtn = document.getElementById('load-more');
 const loader = document.getElementById('loader');
 const error = document.getElementById('error');
+const loadMoreBtn = document.getElementById('load-more');
 
 let page = 1;
 
@@ -47,10 +52,20 @@ async function searchImages(query) {
       error.textContent = `Sorry, there are no images matching your search query. Please try again.`;
       return;
     }
+    if (page === 1) {
+      Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+    }
     renderImages(data.hits);
     loader.style.display = 'none';
-    loadMoreBtn.style.display = 'block';
     error.style.display = 'none';
+    if (gallery.children.length < data.totalHits) {
+      loadMoreBtn.style.display = 'block';
+    } else {
+      loadMoreBtn.style.display = 'none';
+      Notiflix.Notify.info(
+        `We're sorry, but you've reached the end of search results.`
+      );
+    }
   } catch (err) {
     console.error(err);
     error.style.display = 'block';
@@ -64,6 +79,9 @@ function renderImages(images) {
   images.forEach(image => {
     const photoCard = document.createElement('div');
     photoCard.classList.add('photo-card');
+    const imgLink = document.createElement('a');
+    imgLink.href = image.largeImageURL;
+    imgLink.classList.add('gallery-item');
     const img = document.createElement('img');
     img.src = image.webformatURL;
     img.alt = image.tags;
@@ -83,7 +101,8 @@ function renderImages(images) {
     downloads.classList.add('info-item');
     downloads.innerHTML = `<b>Downloads:</b> ${image.downloads}`;
     info.append(likes, views, comments, downloads);
-    photoCard.append(img, info);
+    imgLink.appendChild(img);
+    photoCard.append(imgLink, info);
     gallery.appendChild(photoCard);
   });
 }

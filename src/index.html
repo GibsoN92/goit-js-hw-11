@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>Image Search App</h1>
-      <form id="search-form" class="search-form">
-        <input
-          type="text"
-          name="searchQuery"
-          autocomplete="off"
-          placeholder="Search images..."
-        />
-        <button type="submit">Search</button>
-      </form>
-      <div class="gallery" id="gallery"></div>
-      <button class="load-more" id="load-more" style="display: none">
-        Load more
-      </button>
-      <div class="loader" id="loader" style="display: none">Loading...</div>
-      <div class="error" id="error" style="display: none">
-        Sorry, there was an error. Please try again later.
-      </div>
-    </div>
+    <form class="search-form" id="search-form">
+      <input
+        type="text"
+        name="searchQuery"
+        autocomplete="off"
+        placeholder="Search images..."
+      />
+      <button type="submit">Search</button>
+    </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notiflix"></script>
-    <script src="index.js"></script>
+    <div class="gallery" id="gallery"></div>
+
+    <button
+      type="button"
+      class="load-more"
+      id="load-more"
+      style="display: none"
+    >
+      Load more
+    </button>
+
+    <div id="loader" style="display: none">Loading...</div>
+    <div id="error" style="display: none"></div>
+
+    <script src="index.js" type="module"></script>
   </body>
 </html>
